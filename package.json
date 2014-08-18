@@ -1,18 +1,20 @@
 {
-  "name"            : "allimaavenue",
-  "version"         : "0.0.0",
-  "description"     : "",
-  "main"            : "index.js",
-  "scripts"         : {
-    "test" : "tap test/*.js"
+  "name": "allimaavenue",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/*.js"
   },
-  "author"          : "",
-  "license"         : "ISC",
-  "dependencies"    : {
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
     "ndarray": "~1.0.15"
   },
-  "devDependencies" : {
-    "tape" : "~2.14.0",
-    "tap"  : "~0.4.12"
+  "devDependencies": {
+    "tape": "~2.14.0",
+    "tap": "~0.4.12",
+    "ndarray-unpack": "~1.0.0",
+    "request": "~2.40.0"
   }
 }

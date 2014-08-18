@@ -16,14 +16,7 @@ var check_header = function ( test, header, expected ) {
 var check_data = function ( test, data, expected ) {
   expected = expected || { data : [] };
   test.plan( 1 );
-
-  //test.plan( expected.data.length );
-  //for ( var i = 0; i < expected.data.length; i++ ) {
-  //  test.deepEqual( header.dimensions, expected.dimensions || undefined );
-  //}
-
   test.deepEqual( data, expected );
-
   test.end()
 };
 
@@ -193,9 +186,8 @@ for ( var i = 0; i < tests.length; i++ ) {
   parser.on( "model", tests[i].model() );
   parser.on( "data", tests[i].data() );
 
-  parser._transform( buffer, 'binary', function () {
+  parser.parse( buffer, 'binary', function () {
     //test.end()
   } );
 
 }
-
