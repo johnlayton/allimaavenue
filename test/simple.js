@@ -175,13 +175,11 @@ var tests = [
 ];
 
 
-for ( var i = 0; i < tests.length; i++ ) {
+for ( var i = 1; i < tests.length; i++ ) {
 
   var buffer = new Buffer( tests[i].input.replace( / /g, '' ), 'hex' );
 
-  var parser = new NetCDFParser( { debug : false, treat : function ( idx ) {
-    return idx;
-  } } );
+  var parser = new NetCDFParser( { debug : true, treat : function ( i ) { return i; } } );
 
   parser.on( "model", tests[i].model() );
   parser.on( "data", tests[i].data() );

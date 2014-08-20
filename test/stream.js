@@ -91,7 +91,7 @@ var tests = [
     }
   }
 ];
-
+/*
 for ( var i = 1; i < tests.length; i++ ) {
   var parser = new NetCDFParser( { debug : true, treat : function ( idx ) {
     return idx;
@@ -102,3 +102,4 @@ for ( var i = 1; i < tests.length; i++ ) {
 
   request.get( tests[i].input ).pipe( parser );
 }
+*/
