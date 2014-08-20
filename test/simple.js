@@ -175,7 +175,7 @@ var tests = [
 ];
 
 
-for ( var i = 1; i < tests.length; i++ ) {
+for ( var i = 0; i < tests.length; i++ ) {
 
   var buffer = new Buffer( tests[i].input.replace( / /g, '' ), 'hex' );
 
