@@ -1,9 +1,10 @@
 var tape = require( 'tape' );
 var fs = require( 'fs' );
-var request = require( 'request' );
+var path = require( 'path' );
 var unpack = require( 'ndarray-unpack' );
 
 var NetCDFParser = require( '../lib/allimaavenue.parser.js' );
+//var LoggingStream = require( '../lib/allimaavenue.logging.js' );
 
 var check_header = function ( test, header, expected ) {
   expected = expected || {};
@@ -23,9 +24,11 @@ var check_data = function ( test, data, expected ) {
   test.end();
 };
 
+//console.log( path.dirname() )
+
 var tests = [
   {
-    input : "http://test.opendap.org/data/nc/test.nc",
+    input : "./data/testrh.nc",
     model : function () {
       return function ( header ) {
         tape( 'simple header parsing test one dimensions one variable', function ( test ) {
@@ -58,7 +61,7 @@ var tests = [
     }
   },
   {
-    input : "http://www.unidata.ucar.edu/software/netcdf/examples/testrh.nc",
+    input : "./data/testrh.nc",
     model : function () {
       return function ( header ) {
         tape( 'simple header parsing test one dimensions one variable', function ( test ) {
@@ -100,5 +103,5 @@ for ( var i = 1; i < tests.length; i++ ) {
   parser.on( "model", tests[i].model() );
   parser.on( "data", tests[i].data() );
 
-  request.get( tests[i].input ).pipe( parser );
+  fs.createReadStream( tests[i].input ).pipe( parser );
 }
