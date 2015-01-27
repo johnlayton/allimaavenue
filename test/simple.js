@@ -14,7 +14,7 @@ var check_header = function ( test, header, expected ) {
 };
 
 var check_data = function ( test, data, expected ) {
-  expected = expected || { data : [] };
+  expected = expected || {data : []};
   test.plan( 1 );
   test.deepEqual( data, expected );
   test.end()
@@ -23,7 +23,7 @@ var check_data = function ( test, data, expected ) {
 var tests = [
   {
     input : "4344    4601    0000    0000    0000    0000    0000    0000" +
-            "0000    0000    0000    0000    0000    0000    0000    0000",
+          "0000    0000    0000    0000    0000    0000    0000    0000",
     model : function () {
       return function ( header ) {
         tape( 'simple header parsing test no dimensions', function ( test ) {
@@ -51,12 +51,14 @@ var tests = [
         tape( 'simple header parsing test one dimension one variable', function ( test ) {
           check_header( test, header, {
             dimensions : [
-              { name : 'dim', size : 5 }
+              {name : 'dim', size : 5}
             ],
             variables  : [
-              { name : 'vx', offset : 80, size : 12, type : 3, attributes : undefined, dimensions : [
-                { name : 'dim', size : 5 }
-              ] }
+              {
+                name : 'vx', offset : 80, size : 12, type : 3, attributes : undefined, dimensions : [
+                {name : 'dim', size : 5}
+              ]
+              }
             ]
           } )
         } );
@@ -67,18 +69,19 @@ var tests = [
         tape( 'simple data parsing test no data', function ( test ) {
           check_data( test, data, {
             variables : [
-              { data     : {
-                _shape0  : 5,
-                _stride0 : 1,
-                data     : { 0 : 3, 1 : 1, 2 : 4, 3 : 1, 4 : 5 },
-                offset   : 0
-              },
-                shape    : [ 5 ],
+              {
+                data     : {
+                  shape  : [5],
+                  stride : [1],
+                  data   : {0 : 3, 1 : 1, 2 : 4, 3 : 1, 4 : 5},
+                  offset : 0
+                },
+                shape    : [5],
                 type     : 3,
                 variable : {
                   attributes : undefined,
                   dimensions : [
-                    { name : 'dim', size : 5 }
+                    {name : 'dim', size : 5}
                   ],
                   name       : 'vx',
                   offset     : 80,
@@ -109,15 +112,19 @@ var tests = [
         tape( 'simple header parsing test one dimension two variables', function ( test ) {
           check_header( test, header, {
             dimensions : [
-              { name : 'dim', size : 5 }
+              {name : 'dim', size : 5}
             ],
             variables  : [
-              { name : 'vx', offset : 116, size : 12, type : 3, attributes : undefined, dimensions : [
-                { name : 'dim', size : 5 }
-              ] },
-              { name : 'wx', offset : 128, size : 12, type : 4, attributes : undefined, dimensions : [
-                { name : 'dim', size : 5 }
-              ] }
+              {
+                name : 'vx', offset : 116, size : 12, type : 3, attributes : undefined, dimensions : [
+                {name : 'dim', size : 5}
+              ]
+              },
+              {
+                name : 'wx', offset : 128, size : 12, type : 4, attributes : undefined, dimensions : [
+                {name : 'dim', size : 5}
+              ]
+              }
             ]
           } )
         } );
@@ -128,18 +135,19 @@ var tests = [
         tape( 'simple data parsing test no data', function ( test ) {
           check_data( test, data, {
             variables : [
-              { data     : {
-                _shape0  : 5,
-                _stride0 : 1,
-                data     : { 0 : 3, 1 : 1, 2 : 4, 3 : 1, 4 : 5 },
-                offset   : 0
-              },
-                shape    : [ 5 ],
+              {
+                data     : {
+                  shape  : [5],
+                  stride : [1],
+                  data   : {0 : 3, 1 : 1, 2 : 4, 3 : 1, 4 : 5},
+                  offset : 0
+                },
+                shape    : [5],
                 type     : 3,
                 variable : {
                   attributes : undefined,
                   dimensions : [
-                    { name : 'dim', size : 5 }
+                    {name : 'dim', size : 5}
                   ],
                   name       : 'vx',
                   offset     : 116,
@@ -147,18 +155,19 @@ var tests = [
                   type       : 3
                 }
               },
-              { data     : {
-                _shape0  : 5,
-                _stride0 : 1,
-                data     : {  0 : 250, 1 : 511, 2 : 61695, 3 : 255, 4 : 255 },
-                offset   : 0
-              },
-                shape    : [ 5 ],
+              {
+                data     : {
+                  shape  : [5],
+                  stride : [1],
+                  data   : {0 : 250, 1 : 511, 2 : 61695, 3 : 255, 4 : 255},
+                  offset : 0
+                },
+                shape    : [5],
                 type     : 4,
                 variable : {
                   attributes : undefined,
                   dimensions : [
-                    { name : 'dim', size : 5 }
+                    {name : 'dim', size : 5}
                   ],
                   name       : 'wx',
                   offset     : 128,
@@ -179,9 +188,11 @@ for ( var i = 0; i < tests.length; i++ ) {
 
   var buffer = new Buffer( tests[i].input.replace( / /g, '' ), 'hex' );
 
-  var parser = new NetCDFParser( { debug : false, trace : true, treat : function ( i ) {
-    return i;
-  } } );
+  var parser = new NetCDFParser( {
+                                   debug : false, trace : true, treat : function ( i ) {
+      return i;
+    }
+                                 } );
 
   parser.on( "model", tests[i].model() );
   parser.on( "data", tests[i].data() );
