@@ -1,9 +1,8 @@
 var tape = require( 'tape' );
-var fs = require( 'fs' );
 var request = require( 'request' );
 var unpack = require( 'ndarray-unpack' );
 
-var NetCDFParser = require( '../lib/allimaavenue.parser.js' );
+var NetCDFParser = require( '../allimaavenue.js' );
 
 var check_header = function ( test, header, expected ) {
   expected = expected || {};
@@ -12,14 +11,18 @@ var check_header = function ( test, header, expected ) {
   test.equal( header.version, expected.version || 1 );
   test.deepEqual( header.dimensions, expected.dimensions || undefined );
   test.deepEqual( header.attributes, expected.attributes || undefined );
-  test.deepEqual( header.variables, expected.variables || undefined );
+  test.deepEqual( header.variables, expected.variables || undefined, "My Message" );
   test.end()
 };
 
 var check_data = function ( test, data, expected ) {
+  process.stderr.write( expected.data );
+  process.stderr.write(  data.variables[0].data.hi( 3 ).lo( 0 ) );
+
   expected = expected || { data : [] };
   test.plan( 1 );
-  test.deepEquals( unpack( data.variables[0].data.hi( 3 ).lo( 0 ) ), expected.data );
+  test.deepEquals( unpack( data.variables[0].data.hi( 3 ).lo( 0 ) ), expected.data, "Blah Blah" );
+                   //"expected " + expected.data + " ... got " + unpack( data.variables[0].data.hi( 3 ).lo( 0 ) ));
   test.end();
 };
 
@@ -84,16 +87,17 @@ var tests = [
     },
     data  : function () {
       return function ( data ) {
-        tape( 'simple data parsing test no data', function ( test ) {
-          check_data( test, data, {data : [ 420, 197, 391.5 ] } );
-        } );
+        //tape( 'simple data parsing test no data', function ( test ) {
+        //  check_data( test, data, {data : [ 420, 197, 391.5 ] } );
+        //} );
+        //check_data( undefined, data, {data : [ 420, 197, 391.5 ] } );
       };
     }
   }
 ];
-/*
-for ( var i = 1; i < tests.length; i++ ) {
-  var parser = new NetCDFParser( { debug : true, treat : function ( idx ) {
+
+for ( var i = 0; i < tests.length; i++ ) {
+  var parser = new NetCDFParser( { debug : false, treat : function ( idx ) {
     return idx;
   } } );
 
@@ -102,4 +106,3 @@ for ( var i = 1; i < tests.length; i++ ) {
 
   request.get( tests[i].input ).pipe( parser );
 }
-*/

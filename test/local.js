@@ -1,10 +1,8 @@
 var tape = require( 'tape' );
 var fs = require( 'fs' );
-var path = require( 'path' );
 var unpack = require( 'ndarray-unpack' );
 
-var NetCDFParser = require( '../lib/allimaavenue.parser.js' );
-//var LoggingStream = require( '../lib/allimaavenue.logging.js' );
+var NetCDFParser = require( '../allimaavenue.js' );
 
 var check_header = function ( test, header, expected ) {
   expected = expected || {};
@@ -24,11 +22,9 @@ var check_data = function ( test, data, expected ) {
   test.end();
 };
 
-//console.log( path.dirname() )
-
 var tests = [
   {
-    input : "./data/testrh.nc",
+    input : "./data/test.nc",
     model : function () {
       return function ( header ) {
         tape( 'simple header parsing test one dimensions one variable', function ( test ) {
@@ -87,21 +83,21 @@ var tests = [
     },
     data  : function () {
       return function ( data ) {
-        tape( 'simple data parsing test no data', function ( test ) {
-          check_data( test, data, {data : [ 420, 197, 391.5 ] } );
-        } );
+        //tape( 'simple data parsing test no data', function ( test ) {
+        //  check_data( test, data, {data : [ 420, 197, 391.5 ] } );
+        //} );
       };
     }
   }
 ];
 
-for ( var i = 1; i < tests.length; i++ ) {
+for ( var i = 0; i < tests.length; i++ ) {
   var parser = new NetCDFParser( { debug : true, treat : function ( idx ) {
     return idx;
   } } );
 
   parser.on( "model", tests[i].model() );
-  parser.on( "data", tests[i].data() );
+  //parser.on( "data", tests[i].data() );
 
   fs.createReadStream( tests[i].input ).pipe( parser );
 }

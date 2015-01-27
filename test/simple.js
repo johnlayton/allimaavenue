@@ -1,6 +1,6 @@
 var tape = require( 'tape' );
 
-var NetCDFParser = require( '../lib/allimaavenue.parser.js' );
+var NetCDFParser = require( '../allimaavenue.js' );
 
 var check_header = function ( test, header, expected ) {
   expected = expected || {};
@@ -150,7 +150,7 @@ var tests = [
               { data     : {
                 _shape0  : 5,
                 _stride0 : 1,
-                data     : {  0: 250, 1: 511, 2: 61695, 3: 255, 4: 255 },
+                data     : {  0 : 250, 1 : 511, 2 : 61695, 3 : 255, 4 : 255 },
                 offset   : 0
               },
                 shape    : [ 5 ],
@@ -179,7 +179,9 @@ for ( var i = 0; i < tests.length; i++ ) {
 
   var buffer = new Buffer( tests[i].input.replace( / /g, '' ), 'hex' );
 
-  var parser = new NetCDFParser( { debug : true, treat : function ( i ) { return i; } } );
+  var parser = new NetCDFParser( { debug : false, trace : true, treat : function ( i ) {
+    return i;
+  } } );
 
   parser.on( "model", tests[i].model() );
   parser.on( "data", tests[i].data() );
