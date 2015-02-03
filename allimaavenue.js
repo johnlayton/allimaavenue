@@ -767,7 +767,9 @@
           case S.FINISH:
             parser.debug( "----------", "" );
             parser.debug( "Finish [%s]", new Date() );
-            parser.debug( "----------", "" );
+            parser.debug( "Total [%s]", parser.buffer.length );
+            parser.debug( "Length [%s]", parser.length );
+            parser.debug( "Index [%s]", parser.index );
             parser.emit( 'end', parser.model );
             proccessing = false;
             break;
@@ -776,11 +778,9 @@
         }
         switch ( parser.state ) {
           case S.DATA_READ:
-            //case S.DATA_VAR_READ:
             proccessing = true;
             break;
           case S.FINISH:
-            //proccessing = false;
             break;
           default:
             proccessing = proccessing && ( parser.buffer.length >= Math.max( 4, ( parser.index + parser.length ) ) );
