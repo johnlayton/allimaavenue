@@ -335,9 +335,13 @@
           return arr;
         case NC_DOUBLE:
           arr = new Float64Array( count );
+          buf = this.slice( count * this.step( type ) );
           for ( i = 0; i < count; i++ ) {
-            arr[i] = read( i );
+            arr[i] = buf.readDoubleBE( i * 8 );
           }
+          //for ( i = 0; i < count; i++ ) {
+          //  arr[i] = read( i );
+          //}
           return arr;
         default:
           break;
@@ -394,10 +398,6 @@
             parser.next( S.VERSION );
             break;
           case S.VERSION:
-
-            //parser.trace( "Buffer [%s]", parser.buffer );
-            //parser.trace( "Index [%d]",  parser.index );
-
             parser.model.head.version = parser.readInt8();
             parser.debug( "Version [%s]", parser.model.head.version );
             parser.next( S.RECORDS );
@@ -723,7 +723,7 @@
             parser.debug( "Data type [%d]", parser.temp.type );
             parser.debug( "Data length [%d]", parser.length );
             parser.debug( "----------------------------", "" );
-            parser.debug( "Start Reading [" + parser.temp.variable.name + "] at [%s]", new Date() );
+            parser.debug( "Start Reading [" + parser.temp.variable.name + "] Remaining [" + ( parser.index + parser.length - parser.buffer.length ) + "] at [%s]", new Date() );
             parser.next( S.DATA_VAR_READ );
             break;
           case S.DATA_VAR_READ:
@@ -789,6 +789,7 @@
       }
 
       //parser.push( chunk );
+
       callback();
 
     };
