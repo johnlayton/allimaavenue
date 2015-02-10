@@ -58,12 +58,15 @@ Model Head ...
        attributes:
         [ { name: 'units',
             type: 2,
-            value: 'seconds since 1970-01-01 00:00:00' } ] } ] }```
+            value: 'seconds since 1970-01-01 00:00:00' } ] } ] }
+```
 
 Model Data ...
+
 ```javascript
 { variables:
    [ { variable: [Object], shape: [Object], type: 5, data: [Object] },
      { variable: [Object], shape: [Object], type: 5, data: [Object] },
      { variable: [Object], shape: [Object], type: 5, data: [Object] },
-     { variable: [Object], shape: [Object], type: 4, data: [Object] } ] }```
+     { variable: [Object], shape: [Object], type: 4, data: [Object] } ] }
+```
