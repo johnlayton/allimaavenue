@@ -212,7 +212,6 @@
     };
 
     NetCDFParser.prototype.readInt8 = function () {
-      //parser.trace( "Slice [%s]", this.slice( 1 ).toString() );
       return this.slice( 1 ).readInt8( 0 );
     };
 
