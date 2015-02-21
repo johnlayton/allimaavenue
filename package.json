@@ -6,6 +6,10 @@
   "scripts"         : {
     "test" : "tap test/*.js"
   },
+  "repository"      : {
+    "type" : "git",
+    "url"  : "https://github.com/johnlayton/allimaavenue.git"
+  },
   "author"          : "",
   "license"         : "ISC",
   "dependencies"    : {
