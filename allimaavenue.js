@@ -240,6 +240,15 @@
       return this.slice( 4 ).readInt32BE( 0 );
     };
 
+    NetCDFParser.prototype.readInt64 = function () {
+      var word0 = this.readInt32();
+      var word1 = this.readInt32();
+      if ( !(word1 & 0x80000000) ) {
+        return word0 + 0x100000000 * word1;
+      }
+      return -((((~word1) >>> 0) * 0x100000000) + ((~word0) >>> 0) + 1);
+    };
+
     NetCDFParser.prototype.readFloat = function () {
       return this.slice( 4 ).readFloatBE( 0 )
     };
@@ -666,11 +675,11 @@
             break;
           case S.VAR_SIZE:
             parser.temp.size = parser.readInt32();
-            parser.debug( "Variable size [%s] ", parser.temp.size );
+            parser.debug( "Variable siz e [%s] ", parser.temp.size );
             parser.next( S.VAR_BEGIN );
             break;
           case S.VAR_BEGIN:
-            parser.temp.offset = parser.readInt32();
+            parser.temp.offset = parser.model.head.version == 1 ? parser.readInt32() : parser.readInt64();
             parser.debug( "Variable offset [%s] ", parser.temp.offset );
             variable = {
               name       : parser.temp.name,
