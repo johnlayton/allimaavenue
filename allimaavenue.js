@@ -48,7 +48,7 @@
       NC_INT    : NC_INT,
       NC_FLOAT  : NC_FLOAT,
       NC_DOUBLE : NC_DOUBLE,
-      NC_STRING : NC_DOUBLE
+      NC_STRING : NC_STRING
     };
 
     // const NC_DIMENSION = '\x00\x00\x00\x0A'         // tag for list of dimensions
